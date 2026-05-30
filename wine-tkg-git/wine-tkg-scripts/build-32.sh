@@ -36,6 +36,10 @@ _exports_32() {
       CROSSCFLAGS+=" -I/usr/lib/glib-2.0/include -I/usr/include/glib-2.0 -I/usr/include/gstreamer-1.0 -I/usr/lib/gstreamer-1.0/include"
     fi
   fi
+
+  if [ -n "$_proton_tkg_path" ] && [ -d "$_proton_tkg_path/gst/lib/pkgconfig" ]; then
+    export PKG_CONFIG_PATH="$_proton_tkg_path/gst/lib/pkgconfig:$PKG_CONFIG_PATH"
+  fi
 }
 
 _configure_32() {

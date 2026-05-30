@@ -21,11 +21,11 @@ jobs:
           chown user -R /tmp
           export CARGO_HOME="$PWD"
           cd proton-tkg
-          sed -i 's/uninstaller="false"/uninstaller="true"/' proton-tkg.cfg
-          sed -i 's/autoinstall="false"/autoinstall="true"/' proton-tkg.cfg
-          sed -i 's/build_gstreamer="false"/build_gstreamer="true"/' proton-tkg.cfg
-          sed -i 's/lib32_gstreamer="false"/lib32_gstreamer="true"/' proton-tkg.cfg
-          sed -i 's/wayland_driver="false"/wayland_driver="true"/' proton-tkg.cfg
+          sed -i 's/_skip_uninstaller="false"/_skip_uninstaller="true"/' proton-tkg.cfg
+          sed -i 's/_no_autoinstall="false"/_no_autoinstall="true"/' proton-tkg.cfg
+          sed -i 's/_build_gstreamer="false"/_build_gstreamer="true"/' proton-tkg.cfg
+          sed -i 's/_lib32_gstreamer="false"/_lib32_gstreamer="true"/' proton-tkg.cfg
+          sed -i 's/_wayland_driver="false"/_wayland_driver="true"/' proton-tkg.cfg
           sed -i 's/_no_container="false"/_no_container="true"/' proton-tkg.sh
           touch tarplz
           yes|./proton-tkg.sh

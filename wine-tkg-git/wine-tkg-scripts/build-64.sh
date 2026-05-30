@@ -20,6 +20,10 @@ _exports_64() {
   if [ ! -d '/usr/lib32' ]; then
     export PKG_CONFIG_PATH='/usr/lib64/pkgconfig'
   fi
+
+  if [ -n "$_proton_tkg_path" ] && [ -d "$_proton_tkg_path/gst/lib64/pkgconfig" ]; then
+    export PKG_CONFIG_PATH="$_proton_tkg_path/gst/lib64/pkgconfig:$PKG_CONFIG_PATH"
+  fi
 }
 
 _configure_64() {

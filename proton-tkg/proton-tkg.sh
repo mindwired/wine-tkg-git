@@ -905,7 +905,7 @@ else
   cd "$_nowhere"
 
   # We'll need a token to register to wine-tkg-git - keep one for us to steal wine-tkg-git options later
-  echo -e "_proton_tkg_path='${_nowhere}'\n_no_steampath='${_no_steampath}'" > proton_tkg_token && cp proton_tkg_token "${_wine_tkg_git_path}/"
+  echo -e "_proton_tkg_path='${_nowhere}'\n_no_steampath='${_no_steampath}'\n_build_gstreamer='${_build_gstreamer}'\n_lib32_gstreamer='${_lib32_gstreamer}'\n_build_mediaconv='${_build_mediaconv}'\n_build_ffmpeg='${_build_ffmpeg}'\n_build_faudio='${_build_faudio}'\n_NOLIB32='${_NOLIB32}'\n_reuse_built_gst='${_reuse_built_gst}'" > proton_tkg_token && cp proton_tkg_token "${_wine_tkg_git_path}/"
   if [ "$_no_container" != "true" ]; then
     echo -e "_no_container=false" >> "${_wine_tkg_git_path}"/proton_tkg_token
   fi
@@ -923,6 +923,16 @@ else
     fi
     rm -f steam-runtime/pinned_libs_32/*curl.so* # Use system curl libs for git
     rm -f steam-runtime/pinned_libs_64/*curl.so* # Use system curl libs for git
+  fi
+
+  # Build GST/mediaconverter before Wine so Wine's configure can use it
+  if [ "$_build_mediaconv" = "true" ] || [ "$_build_gstreamer" = "true" ]; then
+    if [ "$_reuse_built_gst" = "true" ] && [ -d "${_resources_path}"/gst ]; then
+      cp -r "${_resources_path}"/gst "$_nowhere"/gst
+    else
+      build_mediaconverter
+      rm -rf "${_resources_path}"/gst && cp -r "$_nowhere"/gst "${_resources_path}"/gst
+    fi
   fi
 
   # Now let's build
@@ -1071,15 +1081,7 @@ else
       fontforge -script "$_nowhere/Proton/fonts/scripts/generatefont.pe" "$_nowhere/proton_template/share/fonts/LiberationSerif-Regular" "TimesNewRoman" "Times New Roman" "Times New Roman" "$_nowhere/proton_template/share/fonts"/times.ttf
       fontforge -script "$_nowhere/Proton/fonts/scripts/generatefont.pe" "$_nowhere/proton_template/share/fonts/LiberationMono-Regular" "CourierNew" "Courier New" "Courier New" "$_nowhere/proton_template/share/fonts"/cour.ttf
 
-      # Build GST/mediaconverter
-      if [ "$_build_mediaconv" = "true" ] || [ "$_build_gstreamer" = "true" ]; then
-        if [ "$_reuse_built_gst" = "true" ] && [ -d "${_resources_path}"/gst ]; then
-          cp -r "${_resources_path}"/gst "$_nowhere"/gst
-        else
-          build_mediaconverter
-          rm -rf "${_resources_path}"/gst && cp -r "$_nowhere"/gst "${_resources_path}"/gst
-        fi
-      fi
+      # Build GST/mediaconverter (Moved earlier)
     fi
 
     # Grab share template and inject version
