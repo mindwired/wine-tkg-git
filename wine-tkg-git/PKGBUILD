@@ -133,7 +133,6 @@ if [ "$_NOLIB32" = "false" ]; then
     'lib32-mesa'                  'lib32-libgl'
     'lib32-libxslt'               'lib32-libpulse'
     'lib32-libva'                 'lib32-gtk3'
-    'lib32-gst-plugins-base-libs' 'lib32-gst-plugins-good'
     'lib32-vulkan-icd-loader'     'lib32-sdl2'
     'lib32-libcups'               'lib32-ocl-icd'
     'lib32-jack'                  'lib32-libgcrypt'
@@ -186,8 +185,8 @@ if [ "$_NOLIB32" = "false" ]; then
     'lib32-libjpeg-turbo'     'lib32-libxcomposite'
     'lib32-libxinerama'       'lib32-ncurses'
     'lib32-libxslt'           'lib32-libva'
-    'lib32-gtk3'              'lib32-gst-plugins-base-libs'
-    'lib32-vulkan-icd-loader' 'lib32-sdl2'
+    'lib32-gtk3'              'lib32-vulkan-icd-loader'
+    'lib32-sdl2'
     'lib32-faudio'
   )
 fi
